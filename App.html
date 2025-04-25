@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Naudia</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom, #ffb6c1, #0a0a0a);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1, h2 {
+      margin-top: 20px;
+      text-shadow: 2px 2px 6px #000;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+    }
+
+    .character {
+      width: 150px;
+      transition: transform 0.3s ease-in-out;
+      filter: drop-shadow(0 0 10px white);
+    }
+
+    .character:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .message {
+      max-width: 700px;
+      margin: 30px auto;
+      font-size: 1.2em;
+      line-height: 1.7em;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 25px;
+      border-radius: 15px;
+      border: 2px dashed pink;
+      box-shadow: 0 0 15px pink;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    audio {
+      margin-top: 20px;
+    }
+
+    .heart {
+      color: pink;
+      font-size: 2em;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="hearts"></canvas>
+
+  <h1 class="heart">Happy Birthday Naudia</h1>
+  <h2>Hello Kitty and Kuromi say: “I love you”</h2>
+
+  <div class="container">
+    <img src="https://media.tenor.com/pSwTXUj1Qv0AAAAi/hello-kitty.gif" alt="Hello Kitty" class="character floating" />
+    <img src="https://media.tenor.com/WkErFlhrPa0AAAAi/kuromi-kuromi-dance.gif" alt="Kuromi" class="character floating" />
+  </div>
+
+  <div class="message">
+    Dear Naudia,<br><br>
+    Happy Birthday, beautiful. You’re the kind of soul that makes the world softer, even when it’s rough. I know you love things a little dark, a little sparkly, and a little weird — so I made this place just for you. A little emo, a little pink, a lot of love. I haven’t forgotten your laugh, your energy, your everything. You are unforgettable. No matter where we are in life, I still carry that love — not to hold you back, but to remind you how much you mattered… how much you still matter. I hope this birthday wraps you up like your favorite hoodie, with every tiny piece of joy stitched into it. I hope you feel loved, deeply, wildly, truly. You deserve that and more. <br><br>
+    Always with love,<br>
+    —Me
+  </div>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2d0666f4b6.mp3?filename=lofi-study-112191.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <script>
+    // Falling hearts
+    const canvas = document.getElementById('hearts');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let hearts = [];
+
+    for (let i = 0; i < 80; i++) {
+      hearts.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 1 + 0.5
+      });
+    }
+
+    function drawHearts() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "pink";
+      ctx.beginPath();
+      for (let i = 0; i < hearts.length; i++) {
+        let p = hearts[i];
+        ctx.moveTo(p.x, p.y);
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+      moveHearts();
+    }
+
+    let angle = 0;
+
+    function moveHearts() {
+      angle += 0.01;
+      for (let i = 0; i < hearts.length; i++) {
+        let p = hearts[i];
+        p.y += Math.cos(angle + p.d) + 1 + p.r / 2;
+        p.x += Math.sin(angle) * 2;
+
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * canvas.width;
+        }
+      }
+    }
+
+    setInterval(drawHearts, 33);
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
